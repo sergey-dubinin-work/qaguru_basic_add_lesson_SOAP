@@ -1,0 +1,40 @@
+plugins{
+    id 'java-library'
+}
+
+repositories {
+    mavenCentral()
+}
+
+def jUnitVersion = "5.13.1",
+    jUnitPlatformLauncherVersion = "1.13.1"
+
+dependencies {
+    testImplementation(
+            "org.junit.jupiter:junit-jupiter-api:$jUnitVersion",
+    )
+    testRuntimeOnly(
+            "org.junit.jupiter:junit-jupiter-engine:$jUnitVersion",
+            "org.junit.platform:junit-platform-launcher:$jUnitPlatformLauncherVersion",
+    )
+}
+
+test{
+    useJUnitPlatform()
+    systemProperties(System.getProperties())
+
+    testLogging {
+        lifecycle {
+            events( "started", "skipped", "failed", "standard_error", "standard_out")
+            exceptionFormat "short"
+        }
+        showStandardStreams = true
+    }
+
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
