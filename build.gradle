@@ -10,7 +10,43 @@ def jUnitVersion = "5.13.1",
     jUnitPlatformLauncherVersion = "1.13.1",
     restAssuredVersion = "5.5.5"
 
+configurations {
+    jaxb
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+            srcDir 'build/generated-sources/jaxb'
+        }
+    }
+}
+
+task genJaxb {
+    ext.sourcesDir = "${buildDir}/generated-sources/jaxb"
+    ext.schema = "src/test/resources/countries.xsd"
+
+    outputs.dir sourcesDir
+
+    doLast() {
+        project.ant {
+            taskdef name: "xjc", classname: "com.sun.tools.xjc.XJCTask",
+                    classpath: configurations.jaxb.asPath
+            mkdir(dir: sourcesDir)
+
+            xjc(destdir: sourcesDir, schema: schema) {
+                arg(value: "-wsdl")
+                produces(dir: sourcesDir, includes: "**/*.java")
+            }
+        }
+    }
+}
+
+compileJava.dependsOn genJaxb
+
 dependencies {
+    jaxb("org.glassfish.jaxb:jaxb-xjc:4.0.5")
     testImplementation(
             "org.junit.jupiter:junit-jupiter-api:$jUnitVersion",
             "io.rest-assured:rest-assured:$restAssuredVersion"
