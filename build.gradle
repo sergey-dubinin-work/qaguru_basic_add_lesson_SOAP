@@ -7,11 +7,13 @@ repositories {
 }
 
 def jUnitVersion = "5.13.1",
-    jUnitPlatformLauncherVersion = "1.13.1"
+    jUnitPlatformLauncherVersion = "1.13.1",
+    restAssuredVersion = "5.5.5"
 
 dependencies {
     testImplementation(
             "org.junit.jupiter:junit-jupiter-api:$jUnitVersion",
+            "io.rest-assured:rest-assured:$restAssuredVersion"
     )
     testRuntimeOnly(
             "org.junit.jupiter:junit-jupiter-engine:$jUnitVersion",
