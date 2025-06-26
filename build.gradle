@@ -47,9 +47,15 @@ compileJava.dependsOn genJaxb
 
 dependencies {
     jaxb("org.glassfish.jaxb:jaxb-xjc:4.0.5")
+    compileOnly(
+            'jakarta.xml.bind:jakarta.xml.bind-api:4.0.2'
+    )
     testImplementation(
             "org.junit.jupiter:junit-jupiter-api:$jUnitVersion",
-            "io.rest-assured:rest-assured:$restAssuredVersion"
+            "io.rest-assured:rest-assured:$restAssuredVersion",
+            "org.glassfish.jaxb:jaxb-runtime:4.0.5",
+            "jakarta.xml.soap:jakarta.xml.soap-api:3.0.2",
+            "com.sun.xml.messaging.saaj:saaj-impl:3.0.4"
     )
     testRuntimeOnly(
             "org.junit.jupiter:junit-jupiter-engine:$jUnitVersion",
